@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, LayoutGrid, List, QrCode, ArrowRightLeft, Archive, Eye, Pencil } from "lucide-react";
+import { Plus, Search, LayoutGrid, List, Eye, Pencil, Package } from "lucide-react";
 
 const statusMap: Record<string, string> = {
   en_service: "active",
