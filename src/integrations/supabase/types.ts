@@ -14,16 +14,557 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          org_id: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          org_id: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          org_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_items: {
+        Row: {
+          discrepancy: string | null
+          equipment_id: string
+          id: string
+          photo_url: string | null
+          session_id: string
+          verified: boolean | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          discrepancy?: string | null
+          equipment_id: string
+          id?: string
+          photo_url?: string | null
+          session_id: string
+          verified?: boolean | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          discrepancy?: string | null
+          equipment_id?: string
+          id?: string
+          photo_url?: string | null
+          session_id?: string
+          verified?: boolean | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_items_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_items_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "audit_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_sessions: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          org_id: string
+          site_id: string | null
+          status: string | null
+          type: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          org_id: string
+          site_id?: string | null
+          status?: string | null
+          type?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          org_id?: string
+          site_id?: string | null
+          status?: string | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_sessions_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_sessions_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          org_id: string
+          parent_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          org_id: string
+          parent_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          org_id?: string
+          parent_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "categories_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      equipment: {
+        Row: {
+          acquisition_mode: string | null
+          brand: string | null
+          category_id: string | null
+          condition: string | null
+          consumption: string | null
+          created_at: string
+          created_by: string | null
+          current_value: number | null
+          depreciation_rate: number | null
+          description: string | null
+          energy_type: string | null
+          id: string
+          insurance_status: string | null
+          item_number: string
+          last_maintenance: string | null
+          location_detail: string | null
+          model: string | null
+          name: string
+          next_maintenance: string | null
+          notes: string | null
+          operational_status: string | null
+          org_id: string
+          purchase_date: string | null
+          purchase_price: number | null
+          serial_number: string | null
+          site_id: string | null
+          supplier: string | null
+          tags: string[] | null
+          updated_at: string
+          warranty_expiry: string | null
+          zone: string | null
+        }
+        Insert: {
+          acquisition_mode?: string | null
+          brand?: string | null
+          category_id?: string | null
+          condition?: string | null
+          consumption?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_value?: number | null
+          depreciation_rate?: number | null
+          description?: string | null
+          energy_type?: string | null
+          id?: string
+          insurance_status?: string | null
+          item_number: string
+          last_maintenance?: string | null
+          location_detail?: string | null
+          model?: string | null
+          name: string
+          next_maintenance?: string | null
+          notes?: string | null
+          operational_status?: string | null
+          org_id: string
+          purchase_date?: string | null
+          purchase_price?: number | null
+          serial_number?: string | null
+          site_id?: string | null
+          supplier?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          warranty_expiry?: string | null
+          zone?: string | null
+        }
+        Update: {
+          acquisition_mode?: string | null
+          brand?: string | null
+          category_id?: string | null
+          condition?: string | null
+          consumption?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_value?: number | null
+          depreciation_rate?: number | null
+          description?: string | null
+          energy_type?: string | null
+          id?: string
+          insurance_status?: string | null
+          item_number?: string
+          last_maintenance?: string | null
+          location_detail?: string | null
+          model?: string | null
+          name?: string
+          next_maintenance?: string | null
+          notes?: string | null
+          operational_status?: string | null
+          org_id?: string
+          purchase_date?: string | null
+          purchase_price?: number | null
+          serial_number?: string | null
+          site_id?: string | null
+          supplier?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          warranty_expiry?: string | null
+          zone?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "equipment_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "equipment_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      equipment_photos: {
+        Row: {
+          created_at: string
+          equipment_id: string
+          id: string
+          is_primary: boolean | null
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          equipment_id: string
+          id?: string
+          is_primary?: boolean | null
+          url: string
+        }
+        Update: {
+          created_at?: string
+          equipment_id?: string
+          id?: string
+          is_primary?: boolean | null
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_photos_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_orders: {
+        Row: {
+          actual_cost: number | null
+          completed_date: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          equipment_id: string
+          estimated_cost: number | null
+          id: string
+          org_id: string
+          scheduled_date: string | null
+          status: string | null
+          technician_id: string | null
+          type: string | null
+          updated_at: string
+        }
+        Insert: {
+          actual_cost?: number | null
+          completed_date?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          equipment_id: string
+          estimated_cost?: number | null
+          id?: string
+          org_id: string
+          scheduled_date?: string | null
+          status?: string | null
+          technician_id?: string | null
+          type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          actual_cost?: number | null
+          completed_date?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          equipment_id?: string
+          estimated_cost?: number | null
+          id?: string
+          org_id?: string
+          scheduled_date?: string | null
+          status?: string | null
+          technician_id?: string | null
+          type?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_orders_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_orders_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          id: string
+          logo_url: string | null
+          name: string
+          sector: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name: string
+          sector?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name?: string
+          sector?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          org_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          org_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          org_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sites: {
+        Row: {
+          address: string | null
+          created_at: string
+          id: string
+          name: string
+          org_id: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          org_id: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          org_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sites_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          org_id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          org_id: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          org_id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_org_id: { Args: { _user_id: string }; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role:
+        | "super_admin"
+        | "org_admin"
+        | "manager"
+        | "technician"
+        | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +691,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["super_admin", "org_admin", "manager", "technician", "viewer"],
+    },
   },
 } as const
