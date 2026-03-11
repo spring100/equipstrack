@@ -57,9 +57,14 @@ export type Database = {
       }
       audit_items: {
         Row: {
+          audited_at: string | null
+          audited_by: string | null
+          condition_found: string | null
           discrepancy: string | null
+          discrepancy_notes: string | null
           equipment_id: string
           id: string
+          is_found: boolean | null
           photo_url: string | null
           session_id: string
           verified: boolean | null
@@ -67,9 +72,14 @@ export type Database = {
           verified_by: string | null
         }
         Insert: {
+          audited_at?: string | null
+          audited_by?: string | null
+          condition_found?: string | null
           discrepancy?: string | null
+          discrepancy_notes?: string | null
           equipment_id: string
           id?: string
+          is_found?: boolean | null
           photo_url?: string | null
           session_id: string
           verified?: boolean | null
@@ -77,9 +87,14 @@ export type Database = {
           verified_by?: string | null
         }
         Update: {
+          audited_at?: string | null
+          audited_by?: string | null
+          condition_found?: string | null
           discrepancy?: string | null
+          discrepancy_notes?: string | null
           equipment_id?: string
           id?: string
+          is_found?: boolean | null
           photo_url?: string | null
           session_id?: string
           verified?: boolean | null
@@ -99,6 +114,60 @@ export type Database = {
             columns: ["session_id"]
             isOneToOne: false
             referencedRelation: "audit_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          equipment_id: string | null
+          field_changed: string | null
+          id: string
+          new_value: string | null
+          notes: string | null
+          old_value: string | null
+          org_id: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          equipment_id?: string | null
+          field_changed?: string | null
+          id?: string
+          new_value?: string | null
+          notes?: string | null
+          old_value?: string | null
+          org_id: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          equipment_id?: string | null
+          field_changed?: string | null
+          id?: string
+          new_value?: string | null
+          notes?: string | null
+          old_value?: string | null
+          org_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_logs_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -195,32 +264,41 @@ export type Database = {
       }
       equipment: {
         Row: {
+          accessories: Json | null
           acquisition_mode: string | null
+          annual_depreciation: number | null
           brand: string | null
           category_id: string | null
           condition: string | null
           consumption: string | null
           created_at: string
           created_by: string | null
+          current_location: string | null
           current_value: number | null
           depreciation_rate: number | null
           description: string | null
           energy_type: string | null
           id: string
           insurance_status: string | null
+          is_active: boolean | null
           item_number: string
           last_maintenance: string | null
           location_detail: string | null
+          manual_url: string | null
           model: string | null
           name: string
           next_maintenance: string | null
           notes: string | null
           operational_status: string | null
           org_id: string
+          photos: Json | null
           purchase_date: string | null
           purchase_price: number | null
+          qr_code: string | null
           serial_number: string | null
           site_id: string | null
+          spare_parts: Json | null
+          subcategory: string | null
           supplier: string | null
           tags: string[] | null
           updated_at: string
@@ -228,32 +306,41 @@ export type Database = {
           zone: string | null
         }
         Insert: {
+          accessories?: Json | null
           acquisition_mode?: string | null
+          annual_depreciation?: number | null
           brand?: string | null
           category_id?: string | null
           condition?: string | null
           consumption?: string | null
           created_at?: string
           created_by?: string | null
+          current_location?: string | null
           current_value?: number | null
           depreciation_rate?: number | null
           description?: string | null
           energy_type?: string | null
           id?: string
           insurance_status?: string | null
+          is_active?: boolean | null
           item_number: string
           last_maintenance?: string | null
           location_detail?: string | null
+          manual_url?: string | null
           model?: string | null
           name: string
           next_maintenance?: string | null
           notes?: string | null
           operational_status?: string | null
           org_id: string
+          photos?: Json | null
           purchase_date?: string | null
           purchase_price?: number | null
+          qr_code?: string | null
           serial_number?: string | null
           site_id?: string | null
+          spare_parts?: Json | null
+          subcategory?: string | null
           supplier?: string | null
           tags?: string[] | null
           updated_at?: string
@@ -261,32 +348,41 @@ export type Database = {
           zone?: string | null
         }
         Update: {
+          accessories?: Json | null
           acquisition_mode?: string | null
+          annual_depreciation?: number | null
           brand?: string | null
           category_id?: string | null
           condition?: string | null
           consumption?: string | null
           created_at?: string
           created_by?: string | null
+          current_location?: string | null
           current_value?: number | null
           depreciation_rate?: number | null
           description?: string | null
           energy_type?: string | null
           id?: string
           insurance_status?: string | null
+          is_active?: boolean | null
           item_number?: string
           last_maintenance?: string | null
           location_detail?: string | null
+          manual_url?: string | null
           model?: string | null
           name?: string
           next_maintenance?: string | null
           notes?: string | null
           operational_status?: string | null
           org_id?: string
+          photos?: Json | null
           purchase_date?: string | null
           purchase_price?: number | null
+          qr_code?: string | null
           serial_number?: string | null
           site_id?: string | null
+          spare_parts?: Json | null
+          subcategory?: string | null
           supplier?: string | null
           tags?: string[] | null
           updated_at?: string
@@ -415,13 +511,111 @@ export type Database = {
           },
         ]
       }
+      maintenance_records: {
+        Row: {
+          completed_at: string | null
+          cost: number | null
+          created_at: string | null
+          equipment_id: string
+          id: string
+          next_scheduled: string | null
+          notes: string | null
+          org_id: string
+          performed_by: string | null
+          scheduled_at: string | null
+          status: string | null
+          type: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          cost?: number | null
+          created_at?: string | null
+          equipment_id: string
+          id?: string
+          next_scheduled?: string | null
+          notes?: string | null
+          org_id: string
+          performed_by?: string | null
+          scheduled_at?: string | null
+          status?: string | null
+          type?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          cost?: number | null
+          created_at?: string | null
+          equipment_id?: string
+          id?: string
+          next_scheduled?: string | null
+          notes?: string | null
+          org_id?: string
+          performed_by?: string | null
+          scheduled_at?: string | null
+          status?: string | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_records_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_records_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      org_members: {
+        Row: {
+          id: string
+          invited_at: string | null
+          joined_at: string | null
+          org_id: string
+          role: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          invited_at?: string | null
+          joined_at?: string | null
+          org_id: string
+          role?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          invited_at?: string | null
+          joined_at?: string | null
+          org_id?: string
+          role?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "org_members_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           created_at: string
           id: string
           logo_url: string | null
           name: string
+          plan: string | null
           sector: string | null
+          settings: Json | null
+          slug: string
           updated_at: string
         }
         Insert: {
@@ -429,7 +623,10 @@ export type Database = {
           id?: string
           logo_url?: string | null
           name: string
+          plan?: string | null
           sector?: string | null
+          settings?: Json | null
+          slug: string
           updated_at?: string
         }
         Update: {
@@ -437,7 +634,10 @@ export type Database = {
           id?: string
           logo_url?: string | null
           name?: string
+          plan?: string | null
           sector?: string | null
+          settings?: Json | null
+          slug?: string
           updated_at?: string
         }
         Relationships: []
@@ -483,6 +683,8 @@ export type Database = {
       sites: {
         Row: {
           address: string | null
+          city: string | null
+          country: string | null
           created_at: string
           id: string
           name: string
@@ -491,6 +693,8 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string
           id?: string
           name: string
@@ -499,6 +703,8 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string
           id?: string
           name?: string
@@ -511,6 +717,77 @@ export type Database = {
             columns: ["org_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transfers: {
+        Row: {
+          created_at: string | null
+          equipment_id: string | null
+          from_site_id: string | null
+          from_zone: string | null
+          id: string
+          org_id: string
+          reason: string | null
+          to_site_id: string | null
+          to_zone: string | null
+          transferred_at: string | null
+          transferred_by: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          equipment_id?: string | null
+          from_site_id?: string | null
+          from_zone?: string | null
+          id?: string
+          org_id: string
+          reason?: string | null
+          to_site_id?: string | null
+          to_zone?: string | null
+          transferred_at?: string | null
+          transferred_by?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          equipment_id?: string | null
+          from_site_id?: string | null
+          from_zone?: string | null
+          id?: string
+          org_id?: string
+          reason?: string | null
+          to_site_id?: string | null
+          to_zone?: string | null
+          transferred_at?: string | null
+          transferred_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transfers_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transfers_from_site_id_fkey"
+            columns: ["from_site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transfers_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transfers_to_site_id_fkey"
+            columns: ["to_site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
             referencedColumns: ["id"]
           },
         ]
