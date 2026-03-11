@@ -11,6 +11,7 @@ import {
   Bell,
   Menu,
   X,
+  QrCode,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -18,6 +19,7 @@ import { useState } from "react";
 const navItems = [
   { path: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
   { path: "/equipment", label: "Inventaire", icon: Package },
+  { path: "/scan", label: "Scanner QR", icon: QrCode },
   { path: "/audits", label: "Audits", icon: ClipboardCheck },
   { path: "/maintenance", label: "Maintenance", icon: Wrench },
   { path: "/reports", label: "Rapports", icon: BarChart3 },
