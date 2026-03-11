@@ -42,7 +42,7 @@ const Onboarding = () => {
       // Create organization
       const { data: org, error: orgError } = await supabase
         .from("organizations")
-        .insert({ name: orgName, sector })
+        .insert({ name: orgName, sector, slug: orgName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now().toString(36) })
         .select()
         .single();
       if (orgError) throw orgError;
