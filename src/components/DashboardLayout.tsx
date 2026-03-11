@@ -11,6 +11,7 @@ import {
   Bell,
   Menu,
   X,
+  QrCode,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
