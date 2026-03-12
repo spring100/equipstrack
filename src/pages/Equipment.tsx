@@ -69,7 +69,7 @@ const Equipment = () => {
       if (!orgId) return { items: [], count: 0 };
       let query = supabase
         .from("equipment")
-        .select("id, item_number, name, operational_status, condition, updated_at, purchase_price, current_value, categories(name), sites(name), zone", { count: "exact" })
+        .select("id, item_number, name, operational_status, condition, updated_at, purchase_price, current_value, photos, categories(name), sites(name), zone", { count: "exact" })
         .eq("org_id", orgId);
 
       if (search) {
