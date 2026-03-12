@@ -206,7 +206,7 @@ const Equipment = () => {
               ))}
               {items.length === 0 && !isLoading && (
                 <tr>
-                  <td colSpan={9} className="text-center py-12 text-muted-foreground">
+                  <td colSpan={10} className="text-center py-12 text-muted-foreground">
                     Aucun équipement trouvé
                   </td>
                 </tr>
