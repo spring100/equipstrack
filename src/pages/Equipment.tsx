@@ -69,7 +69,7 @@ const Equipment = () => {
       if (!orgId) return { items: [], count: 0 };
       let query = supabase
         .from("equipment")
-        .select("id, item_number, name, operational_status, condition, updated_at, purchase_price, current_value, categories(name), sites(name), zone", { count: "exact" })
+        .select("id, item_number, name, operational_status, condition, updated_at, purchase_price, current_value, photos, categories(name), sites(name), zone", { count: "exact" })
         .eq("org_id", orgId);
 
       if (search) {
@@ -148,6 +148,7 @@ const Equipment = () => {
           <table className="w-full text-sm min-w-[800px]">
             <thead>
               <tr className="border-b border-border">
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground w-12">Photo</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">N° Item</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">Nom</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">Catégorie</th>
@@ -162,6 +163,19 @@ const Equipment = () => {
             <tbody>
               {items.map((eq: any) => (
                 <tr key={eq.id} className="border-b border-border last:border-b-0 hover:bg-muted/50 transition-colors">
+                  <td className="px-4 py-3">
+                    {(() => {
+                      const photoArr = eq.photos as any[];
+                      const thumb = photoArr?.[0];
+                      return thumb ? (
+                        <img src={thumb} alt="" className="w-10 h-10 rounded object-cover" />
+                      ) : (
+                        <div className="w-10 h-10 rounded bg-muted flex items-center justify-center">
+                          <Package className="h-4 w-4 text-muted-foreground/40" />
+                        </div>
+                      );
+                    })()}
+                  </td>
                   <td className="px-4 py-3 font-mono text-xs">{eq.item_number}</td>
                   <td className="px-4 py-3">
                     <Link to={`/equipment/${eq.id}`} className="text-primary hover:underline font-medium">
@@ -192,7 +206,7 @@ const Equipment = () => {
               ))}
               {items.length === 0 && !isLoading && (
                 <tr>
-                  <td colSpan={9} className="text-center py-12 text-muted-foreground">
+                  <td colSpan={10} className="text-center py-12 text-muted-foreground">
                     Aucun équipement trouvé
                   </td>
                 </tr>
@@ -207,9 +221,17 @@ const Equipment = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {items.map((eq: any) => (
             <Link key={eq.id} to={`/equipment/${eq.id}`} className="bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors">
-              <div className="w-full h-28 bg-muted rounded-md flex items-center justify-center mb-3">
-                <Package className="h-8 w-8 text-muted-foreground/40" />
-              </div>
+              {(() => {
+                const photoArr = eq.photos as any[];
+                const thumb = photoArr?.[0];
+                return thumb ? (
+                  <img src={thumb} alt="" className="w-full h-28 rounded-md object-cover mb-3" />
+                ) : (
+                  <div className="w-full h-28 bg-muted rounded-md flex items-center justify-center mb-3">
+                    <Package className="h-8 w-8 text-muted-foreground/40" />
+                  </div>
+                );
+              })()}
               <p className="text-xs font-mono text-muted-foreground">{eq.item_number}</p>
               <p className="text-sm font-medium text-foreground mt-0.5 truncate">{eq.name}</p>
               <div className="flex items-center justify-between mt-2">

@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import CameraCapture, { type PhotoItem } from "@/components/equipment/CameraCapture";
 
 const conditions = [
   { value: "neuf", label: "Neuf" },
@@ -42,6 +43,7 @@ const EquipmentForm = () => {
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [photos, setPhotos] = useState<PhotoItem[]>([]);
 
   // Form state
   const [form, setForm] = useState({
@@ -180,6 +182,7 @@ const EquipmentForm = () => {
       consumption: form.consumption || null,
       notes: form.notes || null,
       tags: form.tags ? form.tags.split(",").map((t) => t.trim()).filter(Boolean) : null,
+      photos: photos.filter(p => p.publicUrl).map(p => p.publicUrl) as any,
       created_by: isEdit ? undefined : user.id,
     };
 
@@ -426,10 +429,12 @@ const EquipmentForm = () => {
             </div>
             <div className="space-y-2">
               <Label>Photos</Label>
-              <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-                <p className="text-sm text-muted-foreground">Drag & drop vos photos ici</p>
-                <p className="text-xs text-muted-foreground mt-1">ou cliquez pour parcourir (max 10 photos)</p>
-              </div>
+              <CameraCapture
+                equipmentId={id}
+                orgId={orgId}
+                photos={photos}
+                onPhotosChange={setPhotos}
+              />
             </div>
             <div className="flex justify-between">
               <Button variant="outline" onClick={() => setStep(3)}>Retour</Button>
