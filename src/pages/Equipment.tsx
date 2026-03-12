@@ -221,9 +221,17 @@ const Equipment = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {items.map((eq: any) => (
             <Link key={eq.id} to={`/equipment/${eq.id}`} className="bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors">
-              <div className="w-full h-28 bg-muted rounded-md flex items-center justify-center mb-3">
-                <Package className="h-8 w-8 text-muted-foreground/40" />
-              </div>
+              {(() => {
+                const photoArr = eq.photos as any[];
+                const thumb = photoArr?.[0];
+                return thumb ? (
+                  <img src={thumb} alt="" className="w-full h-28 rounded-md object-cover mb-3" />
+                ) : (
+                  <div className="w-full h-28 bg-muted rounded-md flex items-center justify-center mb-3">
+                    <Package className="h-8 w-8 text-muted-foreground/40" />
+                  </div>
+                );
+              })()}
               <p className="text-xs font-mono text-muted-foreground">{eq.item_number}</p>
               <p className="text-sm font-medium text-foreground mt-0.5 truncate">{eq.name}</p>
               <div className="flex items-center justify-between mt-2">

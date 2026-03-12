@@ -428,10 +428,12 @@ const EquipmentForm = () => {
             </div>
             <div className="space-y-2">
               <Label>Photos</Label>
-              <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-                <p className="text-sm text-muted-foreground">Drag & drop vos photos ici</p>
-                <p className="text-xs text-muted-foreground mt-1">ou cliquez pour parcourir (max 10 photos)</p>
-              </div>
+              <CameraCapture
+                equipmentId={id}
+                orgId={orgId}
+                photos={photos}
+                onPhotosChange={setPhotos}
+              />
             </div>
             <div className="flex justify-between">
               <Button variant="outline" onClick={() => setStep(3)}>Retour</Button>
