@@ -182,6 +182,7 @@ const EquipmentForm = () => {
       consumption: form.consumption || null,
       notes: form.notes || null,
       tags: form.tags ? form.tags.split(",").map((t) => t.trim()).filter(Boolean) : null,
+      photos: photos.filter(p => p.publicUrl).map(p => p.publicUrl) as any,
       created_by: isEdit ? undefined : user.id,
     };
 
