@@ -43,6 +43,7 @@ const EquipmentForm = () => {
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [photos, setPhotos] = useState<PhotoItem[]>([]);
 
   // Form state
   const [form, setForm] = useState({
