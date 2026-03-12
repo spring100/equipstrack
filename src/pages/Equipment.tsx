@@ -163,6 +163,19 @@ const Equipment = () => {
             <tbody>
               {items.map((eq: any) => (
                 <tr key={eq.id} className="border-b border-border last:border-b-0 hover:bg-muted/50 transition-colors">
+                  <td className="px-4 py-3">
+                    {(() => {
+                      const photoArr = eq.photos as any[];
+                      const thumb = photoArr?.[0];
+                      return thumb ? (
+                        <img src={thumb} alt="" className="w-10 h-10 rounded object-cover" />
+                      ) : (
+                        <div className="w-10 h-10 rounded bg-muted flex items-center justify-center">
+                          <Package className="h-4 w-4 text-muted-foreground/40" />
+                        </div>
+                      );
+                    })()}
+                  </td>
                   <td className="px-4 py-3 font-mono text-xs">{eq.item_number}</td>
                   <td className="px-4 py-3">
                     <Link to={`/equipment/${eq.id}`} className="text-primary hover:underline font-medium">
