@@ -148,6 +148,7 @@ const Equipment = () => {
           <table className="w-full text-sm min-w-[800px]">
             <thead>
               <tr className="border-b border-border">
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground w-12">Photo</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">N° Item</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">Nom</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">Catégorie</th>
