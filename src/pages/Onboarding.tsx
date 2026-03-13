@@ -20,7 +20,7 @@ const sectors = [
 
 const Onboarding = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, refreshOrgInfo } = useAuth();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
 
