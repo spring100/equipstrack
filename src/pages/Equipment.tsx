@@ -35,8 +35,8 @@ const statusLabels: Record<string, string> = {
 };
 
 const Equipment = () => {
-  const { profile } = useAuth();
-  const orgId = profile?.org_id;
+  const { profile, orgInfo } = useAuth();
+  const orgId = orgInfo?.orgId || profile?.org_id;
   const [view, setView] = useState<"list" | "grid">("list");
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
