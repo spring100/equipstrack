@@ -68,6 +68,7 @@ const Onboarding = () => {
         if (siteError) throw siteError;
       }
 
+      await refreshOrgInfo();
       toast.success("Organisation créée avec succès !");
       navigate("/dashboard");
     } catch (err: any) {
