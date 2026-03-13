@@ -38,8 +38,8 @@ const EquipmentForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = !!id;
-  const { profile, user } = useAuth();
-  const orgId = profile?.org_id;
+  const { profile, user, orgInfo } = useAuth();
+  const orgId = orgInfo?.orgId || profile?.org_id;
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
