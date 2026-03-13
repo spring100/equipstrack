@@ -8,6 +8,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Onboarding from "./pages/Onboarding";
+import SetupOrganization from "./pages/SetupOrganization";
 import Dashboard from "./pages/Dashboard";
 import Equipment from "./pages/Equipment";
 import EquipmentForm from "./pages/EquipmentForm";
