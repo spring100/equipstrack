@@ -12,6 +12,7 @@ import SetupOrganization from "./pages/SetupOrganization";
 import Dashboard from "./pages/Dashboard";
 import Equipment from "./pages/Equipment";
 import EquipmentForm from "./pages/EquipmentForm";
+import EquipmentDetail from "./pages/EquipmentDetail";
 import PrintQR from "./pages/PrintQR";
 import QRScanner from "./pages/QRScanner";
 import NotFound from "./pages/NotFound";
