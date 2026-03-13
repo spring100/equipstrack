@@ -12,8 +12,8 @@ import { format, subMonths, addDays, isBefore, isAfter } from "date-fns";
 import { fr } from "date-fns/locale";
 
 const Dashboard = () => {
-  const { profile } = useAuth();
-  const orgId = profile?.org_id;
+  const { profile, orgInfo } = useAuth();
+  const orgId = orgInfo?.orgId || profile?.org_id;
 
   // Enable realtime subscriptions
   useRealtimeEquipment(orgId);

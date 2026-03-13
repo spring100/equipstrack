@@ -38,8 +38,8 @@ const EquipmentForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = !!id;
-  const { profile, user } = useAuth();
-  const orgId = profile?.org_id;
+  const { profile, user, orgInfo } = useAuth();
+  const orgId = orgInfo?.orgId || profile?.org_id;
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -145,7 +145,8 @@ const EquipmentForm = () => {
 
   const handleSubmit = async () => {
     if (!orgId || !user) {
-      toast.error("Organisation non configurée");
+      toast.error("Votre session a expiré ou l'organisation n'est pas configurée. Veuillez vous reconnecter.");
+      navigate("/login");
       return;
     }
     if (!form.name.trim() || !form.item_number.trim()) {
