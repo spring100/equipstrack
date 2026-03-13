@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, orgInfo } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -15,6 +16,12 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+
+  // If no org and not already on onboarding/setup pages, redirect
+  const setupPaths = ["/onboarding", "/setup-organization"];
+  if (!orgInfo && !setupPaths.includes(location.pathname)) {
+    return <Navigate to="/setup-organization" replace />;
   }
 
   return <>{children}</>;
