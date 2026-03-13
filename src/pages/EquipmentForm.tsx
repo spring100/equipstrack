@@ -145,7 +145,8 @@ const EquipmentForm = () => {
 
   const handleSubmit = async () => {
     if (!orgId || !user) {
-      toast.error("Organisation non configurée");
+      toast.error("Votre session a expiré ou l'organisation n'est pas configurée. Veuillez vous reconnecter.");
+      navigate("/login");
       return;
     }
     if (!form.name.trim() || !form.item_number.trim()) {
