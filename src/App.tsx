@@ -35,6 +35,7 @@ const App = () => (
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/equipment" element={<ProtectedRoute><Equipment /></ProtectedRoute>} />
             <Route path="/equipment/new" element={<ProtectedRoute><EquipmentForm /></ProtectedRoute>} />
+            <Route path="/equipment/:id" element={<ProtectedRoute><EquipmentDetail /></ProtectedRoute>} />
             <Route path="/equipment/:id/edit" element={<ProtectedRoute><EquipmentForm /></ProtectedRoute>} />
             <Route path="/equipment/print-qr" element={<ProtectedRoute><PrintQR /></ProtectedRoute>} />
             <Route path="/scan" element={<ProtectedRoute><QRScanner /></ProtectedRoute>} />
