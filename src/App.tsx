@@ -15,6 +15,9 @@ import EquipmentForm from "./pages/EquipmentForm";
 import EquipmentDetail from "./pages/EquipmentDetail";
 import PrintQR from "./pages/PrintQR";
 import QRScanner from "./pages/QRScanner";
+import Maintenance from "./pages/Maintenance";
+import Audits from "./pages/Audits";
+import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
