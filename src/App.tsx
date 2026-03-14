@@ -15,6 +15,7 @@ import EquipmentForm from "./pages/EquipmentForm";
 import EquipmentDetail from "./pages/EquipmentDetail";
 import PrintQR from "./pages/PrintQR";
 import QRScanner from "./pages/QRScanner";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
