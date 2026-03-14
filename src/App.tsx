@@ -43,6 +43,9 @@ const App = () => (
             <Route path="/equipment/:id/edit" element={<ProtectedRoute><EquipmentForm /></ProtectedRoute>} />
             <Route path="/equipment/print-qr" element={<ProtectedRoute><PrintQR /></ProtectedRoute>} />
             <Route path="/scan" element={<ProtectedRoute><QRScanner /></ProtectedRoute>} />
+            <Route path="/maintenance" element={<ProtectedRoute><Maintenance /></ProtectedRoute>} />
+            <Route path="/audits" element={<ProtectedRoute><Audits /></ProtectedRoute>} />
+            <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
