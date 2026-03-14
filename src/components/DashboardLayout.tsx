@@ -49,10 +49,8 @@ const DashboardLayout = ({ children, title, breadcrumb }: DashboardLayoutProps) 
       <aside className="hidden lg:flex w-60 flex-col bg-sidebar text-sidebar-foreground fixed inset-y-0 left-0 z-30">
         <div className="px-5 py-5 border-b border-sidebar-border">
           <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-md bg-sidebar-primary flex items-center justify-center text-sidebar-primary-foreground font-bold text-sm">
-              ET
-            </div>
-            <span className="text-base font-semibold">EquipTrack</span>
+            <img src="/equipstrack-logo.png" alt="Equipstrack" className="h-8 w-8 object-contain" />
+            <span className="text-base font-semibold">Equipstrack</span>
           </Link>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
@@ -91,7 +89,8 @@ const DashboardLayout = ({ children, title, breadcrumb }: DashboardLayoutProps) 
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
           <aside className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar text-sidebar-foreground p-4">
             <div className="flex items-center justify-between mb-6">
-              <span className="font-semibold">EquipTrack</span>
+              <img src="/equipstrack-logo.png" alt="Equipstrack" className="h-7 object-contain" />
+              <span className="font-semibold">Equipstrack</span>
               <Button variant="ghost" size="icon" onClick={() => setMobileOpen(false)}>
                 <X className="h-5 w-5" />
               </Button>

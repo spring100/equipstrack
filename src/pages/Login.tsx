@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,10 @@ import { toast } from "sonner";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    document.title = "Connexion — Equipstrack";
+  }, []);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
@@ -48,7 +52,8 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-primary">EquipTrack</h1>
+          <img src="/equipstrack-logo.png" alt="Equipstrack" className="h-12 w-auto mx-auto object-contain mb-3" />
+          <h1 className="text-2xl font-bold text-primary">Equipstrack</h1>
           <p className="text-sm text-muted-foreground mt-1">Gestion d'inventaire intelligente</p>
         </div>
 

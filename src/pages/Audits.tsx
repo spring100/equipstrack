@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -35,6 +35,10 @@ const Audits = () => {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    document.title = "Audits — Equipstrack";
+  }, []);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", site_id: "", type: "inventaire" });
 

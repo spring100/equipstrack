@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,6 +10,10 @@ import { Building2, MapPin, FolderTree, Users } from "lucide-react";
 
 const Settings = () => {
   const { orgInfo } = useAuth();
+
+  useEffect(() => {
+    document.title = "Paramètres — Equipstrack";
+  }, []);
 
   return (
     <DashboardLayout

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +14,10 @@ const COLORS = ["hsl(var(--primary))", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6
 const Reports = () => {
   const { profile, orgInfo } = useAuth();
   const orgId = orgInfo?.orgId || profile?.org_id;
+
+  useEffect(() => {
+    document.title = "Rapports — Equipstrack";
+  }, []);
 
   const { data: equipment = [] } = useQuery({
     queryKey: ["report-equipment", orgId],

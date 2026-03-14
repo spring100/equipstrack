@@ -41,7 +41,8 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-primary">EquipTrack</h1>
+          <img src="/equipstrack-logo.png" alt="Equipstrack" className="h-12 w-auto mx-auto object-contain mb-3" />
+          <h1 className="text-2xl font-bold text-primary">Equipstrack</h1>
           <p className="text-sm text-muted-foreground mt-1">Créez votre compte</p>
         </div>
 

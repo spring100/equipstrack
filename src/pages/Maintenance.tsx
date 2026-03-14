@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -38,6 +38,9 @@ const typeLabels: Record<string, string> = {
 };
 
 const Maintenance = () => {
+  useEffect(() => {
+    document.title = "Maintenance — Equipstrack";
+  }, []);
   const { profile, orgInfo } = useAuth();
   const orgId = orgInfo?.orgId || profile?.org_id;
   const qc = useQueryClient();

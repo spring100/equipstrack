@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +14,10 @@ import { fr } from "date-fns/locale";
 const Dashboard = () => {
   const { profile, orgInfo } = useAuth();
   const orgId = orgInfo?.orgId || profile?.org_id;
+
+  useEffect(() => {
+    document.title = "Tableau de bord — Equipstrack";
+  }, []);
 
   // Enable realtime subscriptions
   useRealtimeEquipment(orgId);

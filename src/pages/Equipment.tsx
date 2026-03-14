@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/DashboardLayout";
 import StatusBadge from "@/components/StatusBadge";
@@ -38,6 +38,10 @@ const Equipment = () => {
   const { profile, orgInfo } = useAuth();
   const orgId = orgInfo?.orgId || profile?.org_id;
   const [view, setView] = useState<"list" | "grid">("list");
+
+  useEffect(() => {
+    document.title = "Équipements — Equipstrack";
+  }, []);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [page, setPage] = useState(0);
