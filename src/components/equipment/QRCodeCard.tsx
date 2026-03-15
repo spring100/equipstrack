@@ -51,6 +51,7 @@ const QRCodeCard = ({ equipment, orgLogoUrl, orgName, size = 180 }: QRCodeCardPr
     const canvas = canvasRef.current?.querySelector("canvas");
     if (!canvas) return;
     const dataUrl = canvas.toDataURL("image/png");
+    const displayOrg = orgName || "EQUIPSTRACK";
     const win = window.open("", "_blank");
     if (!win) return;
     win.document.write(`
@@ -59,21 +60,33 @@ const QRCodeCard = ({ equipment, orgLogoUrl, orgName, size = 180 }: QRCodeCardPr
       <head>
         <title>QR - ${equipment.item_number}</title>
         <style>
-          @page { size: 60mm 40mm; margin: 0; }
-          body { margin: 0; display: flex; justify-content: center; align-items: center; width: 60mm; height: 40mm; font-family: system-ui, sans-serif; }
-          .label { text-align: center; padding: 2mm; }
-          .label img.qr { width: 22mm; height: 22mm; }
-          .label .name { font-size: 7pt; font-weight: 600; margin-top: 1mm; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 56mm; }
-          .label .id { font-size: 6pt; color: #666; margin-top: 0.5mm; }
-          .label .org { font-size: 5pt; color: #999; margin-bottom: 1mm; }
+          @page { size: A4 portrait; margin: 8mm; }
+          body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: system-ui, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          .label { width: 90mm; height: 40mm; border: 1.5px solid #1B3A6B; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; background: white; }
+          .label-header { background: #1B3A6B; padding: 3px 8px; display: flex; align-items: center; }
+          .org-name { font-size: 8px; font-weight: bold; color: #FFFFFF; text-transform: uppercase; letter-spacing: 1px; }
+          .label-body { display: flex; flex-direction: row; align-items: center; flex: 1; padding: 5px 6px; }
+          .qr-side { flex-shrink: 0; width: 27mm; height: 27mm; display: flex; align-items: center; justify-content: center; }
+          .qr-side img { width: 27mm; height: 27mm; }
+          .divider { width: 1px; height: 25mm; background: #CBD5E1; margin: 0 6px; flex-shrink: 0; }
+          .info-side { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 3px; overflow: hidden; }
+          .eq-name { font-size: 9.5px; font-weight: bold; color: #1A1A2E; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 52mm; margin-bottom: 3px; }
+          .detail-row { display: flex; align-items: center; gap: 4px; font-size: 7.5px; }
+          .label-key { color: #64748B; min-width: 13mm; font-size: 7px; }
+          .label-val { color: #1A1A2E; font-weight: 600; font-family: monospace; font-size: 7.5px; background: #F1F5F9; padding: 1px 4px; border-radius: 2px; }
         </style>
       </head>
       <body>
         <div class="label">
-          ${orgName ? `<div class="org">${orgName}</div>` : ""}
-          <img class="qr" src="${dataUrl}" />
-          <div class="name">${equipment.name}</div>
-          <div class="id">${equipment.item_number}</div>
+          <div class="label-header"><span class="org-name">${displayOrg}</span></div>
+          <div class="label-body">
+            <div class="qr-side"><img src="${dataUrl}" /></div>
+            <div class="divider"></div>
+            <div class="info-side">
+              <div class="eq-name">${equipment.name}</div>
+              <div class="detail-row"><span class="label-key">N° Item</span><span class="label-val">${equipment.item_number}</span></div>
+            </div>
+          </div>
         </div>
       </body>
       </html>
