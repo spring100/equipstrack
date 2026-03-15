@@ -178,8 +178,10 @@ const PrintQRPage = () => {
                 item_number: eq.item_number,
                 name: eq.name,
                 org_id: eq.org_id,
+                serial_number: eq.serial_number,
               }}
               siteName={(eq as any).sites?.name}
+              orgName={organizationName}
             />
           ))}
         </div>
