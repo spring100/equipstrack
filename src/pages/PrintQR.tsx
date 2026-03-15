@@ -12,8 +12,9 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 const PrintQRPage = () => {
-  const { profile } = useAuth();
+  const { profile, orgInfo } = useAuth();
   const { data: equipment, isLoading } = useEquipmentList(profile?.org_id ?? undefined);
+  const organizationName = orgInfo?.orgName || "EQUIPSTRACK";
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState("");
   const gridRef = useRef<HTMLDivElement>(null);
