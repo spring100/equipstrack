@@ -2,14 +2,21 @@ import { useState, useRef, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEquipmentList } from "@/hooks/useEquipment";
 import DashboardLayout from "@/components/DashboardLayout";
-import QRPrintLabel from "@/components/equipment/QRPrintTemplate";
+import QRPrintLabel, { type LabelSize } from "@/components/equipment/QRPrintTemplate";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Printer, FileDown, CheckSquare, Square, Search } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Printer, FileDown, CheckSquare, Square, Search, Ruler } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+
+const LABEL_SIZE_OPTIONS: { value: LabelSize; label: string }[] = [
+  { value: "60x40", label: "60 × 40 mm (Compact)" },
+  { value: "90x40", label: "90 × 40 mm (Standard)" },
+  { value: "100x50", label: "100 × 50 mm (Grand)" },
+];
 
 const PrintQRPage = () => {
   const { profile, orgInfo } = useAuth();
@@ -17,6 +24,7 @@ const PrintQRPage = () => {
   const organizationName = orgInfo?.orgName || "EQUIPSTRACK";
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState("");
+  const [labelSize, setLabelSize] = useState<LabelSize>("90x40");
   const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered = (equipment ?? []).filter(
@@ -59,21 +67,56 @@ const PrintQRPage = () => {
     toast.info("Génération du PDF...");
     try {
       const canvas = await html2canvas(gridRef.current, {
-        scale: 2,
+        scale: 3,
         backgroundColor: "#ffffff",
         useCORS: true,
+        logging: false,
+        windowWidth: gridRef.current.scrollWidth,
+        windowHeight: gridRef.current.scrollHeight,
       });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("qr-codes-equiptrack.pdf");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 5;
+      const usableWidth = pageWidth - margin * 2;
+      const imgRatio = canvas.height / canvas.width;
+      const imgHeight = usableWidth * imgRatio;
+
+      if (imgHeight <= pageHeight - margin * 2) {
+        pdf.addImage(imgData, "PNG", margin, margin, usableWidth, imgHeight);
+      } else {
+        // Multi-page support
+        let yOffset = 0;
+        const sliceHeight = ((pageHeight - margin * 2) / imgHeight) * canvas.height;
+
+        while (yOffset < canvas.height) {
+          const pageCanvas = document.createElement("canvas");
+          pageCanvas.width = canvas.width;
+          pageCanvas.height = Math.min(sliceHeight, canvas.height - yOffset);
+          const ctx = pageCanvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(canvas, 0, -yOffset);
+            const pageData = pageCanvas.toDataURL("image/png");
+            const sliceImgHeight = (pageCanvas.height / canvas.width) * usableWidth;
+            if (yOffset > 0) pdf.addPage();
+            pdf.addImage(pageData, "PNG", margin, margin, usableWidth, sliceImgHeight);
+          }
+          yOffset += sliceHeight;
+        }
+      }
+
+      pdf.save("qr-codes-equipstrack.pdf");
       toast.success("PDF téléchargé");
     } catch {
       toast.error("Erreur lors de la génération du PDF");
     }
   }, [selectedEquipment]);
+
+  // Grid columns based on label size
+  const gridCols = labelSize === "60x40" ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4" :
+                   labelSize === "100x50" ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3" :
+                   "grid-cols-1 sm:grid-cols-2 md:grid-cols-3";
 
   return (
     <DashboardLayout
@@ -83,7 +126,7 @@ const PrintQRPage = () => {
         { label: "Impression QR" },
       ]}
     >
-      {/* Controls — hidden in print */}
+      {/* Controls */}
       <div className="print:hidden space-y-4 mb-6">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative flex-1 min-w-[200px] max-w-sm">
@@ -95,6 +138,23 @@ const PrintQRPage = () => {
               className="pl-9"
             />
           </div>
+
+          <div className="flex items-center gap-2">
+            <Ruler className="h-4 w-4 text-muted-foreground" />
+            <Select value={labelSize} onValueChange={(v) => setLabelSize(v as LabelSize)}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {LABEL_SIZE_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           <Button variant="outline" size="sm" onClick={toggleAll}>
             {selected.size === filtered.length ? (
               <CheckSquare className="h-4 w-4 mr-1.5" />
@@ -163,11 +223,11 @@ const PrintQRPage = () => {
         )}
       </div>
 
-      {/* Print grid — visible in both screen preview and print */}
+      {/* Print grid */}
       {selectedEquipment.length > 0 && (
         <div
           ref={gridRef}
-          className="print:block grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-0 bg-white print:gap-0"
+          className={`print:block grid ${gridCols} gap-3 bg-white p-4 print:gap-0 print:p-0`}
           style={{ pageBreakAfter: "always" }}
         >
           {selectedEquipment.map((eq) => (
@@ -182,6 +242,7 @@ const PrintQRPage = () => {
               }}
               siteName={(eq as any).sites?.name}
               orgName={organizationName}
+              labelSize={labelSize}
             />
           ))}
         </div>
