@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, LayoutGrid, List, Eye, Pencil, Package } from "lucide-react";
+import { Plus, Search, LayoutGrid, List, Eye, Pencil, Package, Printer } from "lucide-react";
 
 const statusMap: Record<string, string> = {
   en_service: "active",
@@ -134,6 +134,12 @@ const Equipment = () => {
           </Button>
         </div>
 
+        <Link to="/equipment/print-qr">
+          <Button variant="outline" size="sm" className="gap-1.5">
+            <Printer className="h-4 w-4" />
+            Imprimer QR
+          </Button>
+        </Link>
         <Link to="/equipment/new">
           <Button size="sm" className="gap-1.5">
             <Plus className="h-4 w-4" />
