@@ -134,6 +134,12 @@ const Equipment = () => {
           </Button>
         </div>
 
+        <Link to="/equipment/print-qr">
+          <Button variant="outline" size="sm" className="gap-1.5">
+            <Printer className="h-4 w-4" />
+            Imprimer QR
+          </Button>
+        </Link>
         <Link to="/equipment/new">
           <Button size="sm" className="gap-1.5">
             <Plus className="h-4 w-4" />
