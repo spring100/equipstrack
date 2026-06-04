@@ -42,7 +42,8 @@ const DashboardLayout = ({ children, title, breadcrumb }: DashboardLayoutProps) 
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/login");
+    // Force a full reload to clear any in-memory state and route guards
+    window.location.href = "/login";
   };
 
   return (
