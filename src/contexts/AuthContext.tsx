@@ -153,7 +153,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      // Ignore "Auth session missing" or network errors — we still clear local state
+      console.warn("signOut warning:", err);
+    }
+    try {
+      // Defensive: clear any lingering Supabase auth keys in localStorage
+      Object.keys(localStorage)
+        .filter((k) => k.startsWith("sb-") && k.endsWith("-auth-token"))
+        .forEach((k) => localStorage.removeItem(k));
+    } catch {}
     setUser(null);
     setSession(null);
     setProfile(null);
