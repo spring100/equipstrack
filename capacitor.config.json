@@ -1,0 +1,9 @@
+{
+  "appId": "app.lovable.3dcf71d95afe4de6a010be3f274c20b5",
+  "appName": "equipstrack",
+  "webDir": "dist",
+  "server": {
+    "url": "https://3dcf71d9-5afe-4de6-a010-be3f274c20b5.lovableproject.com?forceHideBadge=true",
+    "cleartext": true
+  }
+}
