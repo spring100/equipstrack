@@ -107,9 +107,9 @@ const QRScannerPage = () => {
               )}
             </div>
 
-            {/* Scanner viewport */}
-            <div className="relative rounded-lg overflow-hidden bg-black aspect-square max-h-[350px]">
-              <div id="qr-reader" className="w-full h-full" />
+            {/* Scanner viewport — forced square */}
+            <div className="relative rounded-lg overflow-hidden bg-black aspect-square w-full max-w-[400px] mx-auto qr-square-wrapper">
+              <div id="qr-reader" className="absolute inset-0 w-full h-full" />
               {!scanning && !cameraError && (
                 <div className="absolute inset-0 flex items-center justify-center bg-muted/80">
                   <p className="text-sm text-muted-foreground">

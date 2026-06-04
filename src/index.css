@@ -4,6 +4,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* QR scanner: force square viewport and crop the camera video to cover */
+.qr-square-wrapper #qr-reader,
+.qr-square-wrapper #qr-reader > div {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.qr-square-wrapper #qr-reader video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block;
+}
+
 @layer base {
   :root {
     --font-sans: 'Inter', system-ui, sans-serif;
